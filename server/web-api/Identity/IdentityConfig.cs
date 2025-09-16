@@ -57,7 +57,7 @@ public static class IdentityConfig
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(chaveEmBytes),
                 ValidAudience = audienciaValida,
-                ValidIssuer = "eAgenda",
+                ValidIssuer = "GestaoDeEstacionamento",
                 ValidateAudience = true,
                 ValidateIssuer = true,
                 ValidateLifetime = true
