@@ -46,7 +46,7 @@ public static class DependencyInjection
         services.AddStackExchangeRedisCache(opt =>
         {
             opt.Configuration = redisConnectionString;
-            opt.InstanceName = "eagenda";
+            opt.InstanceName = "gestaodeestacionamento";
         });
 
         return services;
@@ -61,7 +61,7 @@ public static class DependencyInjection
 
         var caminhoAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        var caminhoArquivoLogs = Path.Combine(caminhoAppData, "eAgenda", "erro.log");
+        var caminhoArquivoLogs = Path.Combine(caminhoAppData, "GestoaDeEstacionamento", "erro.log");
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
@@ -69,7 +69,7 @@ public static class DependencyInjection
             .WriteTo.File(caminhoArquivoLogs, LogEventLevel.Error)
             .WriteTo.NewRelicLogs(
                 endpointUrl: "https://log-api.newrelic.com/log/v1",
-                applicationName: "e-agenda-app",
+                applicationName: "gestao-de-estacionamento-app",
                 licenseKey: licenseKey
             )
             .CreateLogger();
