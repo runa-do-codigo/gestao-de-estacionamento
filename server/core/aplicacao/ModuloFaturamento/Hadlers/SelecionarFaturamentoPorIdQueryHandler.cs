@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentResults;
 using GestaoDeEstacionamento.Core.Aplicacao.Compartilhado;
-using GestaoDeEstacionamento.Core.Aplicacao.ModulFaturamento.Commands;
+using GestaoDeEstacionamento.Core.Aplicacao.ModuloFaturamento.Commands;
 using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using MediatR;
 using Microsoft.Extensions.Logging;

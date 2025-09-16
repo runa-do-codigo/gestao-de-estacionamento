@@ -1,7 +1,7 @@
 ﻿using FluentResults;
 using MediatR;
 
-namespace GestaoDeEstacionamento.Core.Aplicacao.ModulFaturamento.Commands;
+namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloFaturamento.Commands;
 
 public record SelecionarFaturamentoPorIdQuery(Guid Id) : IRequest<Result<SelecionarFaturamentoPorIdResult>>;
 

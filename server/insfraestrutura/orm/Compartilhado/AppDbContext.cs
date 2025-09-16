@@ -1,5 +1,6 @@
 ﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 using GestaoDeEstacionamento.Core.Dominio.ModuloAutenticacao;
+using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,7 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
     IdentityDbContext<Usuario, Cargo, Guid>(options), IUnitOfWork
 {
     //public DbSet<Contato> Contatos { get; set; }
-    //public DbSet<Compromisso> Compromissos { get; set; }
+    public DbSet<Faturamento> Faturamentos { get; set; }
     //public DbSet<Categoria> Categorias { get; set; }
     //public DbSet<Despesa> Despesas { get; set; }
     //public DbSet<Tarefa> Tarefas { get; set; }
@@ -22,8 +23,8 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
             //modelBuilder.Entity<Contato>()
             //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
-            //modelBuilder.Entity<Compromisso>()
-            //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
+            modelBuilder.Entity<Faturamento>()
+                .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
             //modelBuilder.Entity<Categoria>()
             //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
