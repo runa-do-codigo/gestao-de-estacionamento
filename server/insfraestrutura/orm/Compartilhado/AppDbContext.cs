@@ -1,5 +1,6 @@
 ﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 using GestaoDeEstacionamento.Core.Dominio.ModuloAutenticacao;
+using GestaoDeEstacionamento.Core.Dominio.ModuloHospede;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
 public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvider = null) :
     IdentityDbContext<Usuario, Cargo, Guid>(options), IUnitOfWork
 {
-    //public DbSet<Contato> Contatos { get; set; }
+    public DbSet<Hospede> Hospedes { get; set; }
     //public DbSet<Compromisso> Compromissos { get; set; }
     //public DbSet<Categoria> Categorias { get; set; }
     //public DbSet<Despesa> Despesas { get; set; }
@@ -19,8 +20,8 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
     {
         if (tenantProvider is not null)
         {
-            //modelBuilder.Entity<Contato>()
-            //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
+            modelBuilder.Entity<Hospede>()
+                .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
             //modelBuilder.Entity<Compromisso>()
             //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
