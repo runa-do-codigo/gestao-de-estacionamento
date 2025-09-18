@@ -18,8 +18,6 @@ public class FaturamentoMappingProfile : Profile
         CreateMap<Faturamento, SelecionarFaturamentoPorIdResult>()
             .ConvertUsing(src => new SelecionarFaturamentoPorIdResult(
                 src.Id,
-                src.DataInicio,
-                src.DataFim,
                 src.DataPagamento,
                 src.ValorTotal,
                 src.Ticket.Id 
@@ -28,8 +26,6 @@ public class FaturamentoMappingProfile : Profile
         CreateMap<Faturamento, SelecionarFaturamentosDto>()
            .ConvertUsing(src => new SelecionarFaturamentosDto(
                 src.Id,
-                src.DataInicio,
-                src.DataFim,
                 src.DataPagamento,
                 src.ValorTotal,
                 src.Ticket.Id

@@ -18,10 +18,6 @@ public class MapeadoTicketEmOrm : IEntityTypeConfiguration<Ticket>
         builder.Property(x => x.DataSaida)
             .IsRequired(false);
 
-        builder.HasOne(x => x.Faturamento)
-            .WithOne(c => c.Ticket)
-            .OnDelete(DeleteBehavior.NoAction);
-
         builder.HasIndex(x => x.Id)
             .IsUnique();
     }

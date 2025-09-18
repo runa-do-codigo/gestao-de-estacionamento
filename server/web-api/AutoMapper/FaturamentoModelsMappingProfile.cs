@@ -15,8 +15,6 @@ public class FaturamentoModelsMappingProfile : Profile
         CreateMap<(Guid, EditarFaturamentoRequest), EditarFaturamentoCommand>()
             .ConvertUsing(src => new EditarFaturamentoCommand(
                 src.Item1,
-                src.Item2.DataInicio,
-                src.Item2.DataFim,
                 src.Item2.DataPagamento,
                 src.Item2.ValorTotal,
                 src.Item2.TicketId
@@ -24,8 +22,6 @@ public class FaturamentoModelsMappingProfile : Profile
 
         CreateMap<EditarFaturamentoResult, EditarFaturamentoResponse>()
             .ConvertUsing(src => new EditarFaturamentoResponse(
-                src.DataInicio,
-                src.DataFim,
                 src.DataPagamento,
                 src.ValorTotal,
                 src.TicketId

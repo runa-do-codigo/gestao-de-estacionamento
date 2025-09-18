@@ -11,8 +11,6 @@ public record SelecionarFaturamentosResult(ImmutableList<SelecionarFaturamentosD
 
 public record SelecionarFaturamentosDto(
     Guid Id,
-    DateTime DataInicio,
-    DateTime? DataFim,
     DateTime? DataPagamento,
     int? ValorTotal,
     Guid TicketId

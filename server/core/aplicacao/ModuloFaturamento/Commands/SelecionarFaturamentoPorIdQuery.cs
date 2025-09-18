@@ -7,8 +7,6 @@ public record SelecionarFaturamentoPorIdQuery(Guid Id) : IRequest<Result<Selecio
 
 public record SelecionarFaturamentoPorIdResult(
     Guid Id,
-    DateTime DataInicio,
-    DateTime? DataFim,
     DateTime? DataPagamento,
     int? ValorTotal,
     Guid? TicketId

@@ -11,22 +11,11 @@ public class MapeadoFaturamentoEmOrm : IEntityTypeConfiguration<Faturamento>
         builder.Property(x => x.Id)
            .ValueGeneratedNever()
            .IsRequired();
-
-        builder.Property(x => x.DataInicio)
-            .IsRequired(false);
-
-        builder.Property(x => x.DataFim)
-            .IsRequired(false);
-
         builder.Property(x => x.DataPagamento)
             .IsRequired(false);
 
         builder.Property(x => x.ValorTotal)
             .IsRequired(false);
-
-        builder.HasOne(x => x.Ticket)
-            .WithOne(c => c.Faturamento)
-            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasIndex(x => x.Id)
             .IsUnique();
