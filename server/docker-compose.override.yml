@@ -25,6 +25,8 @@ services:
        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
   
   cache:
     environment:
@@ -32,3 +34,5 @@ services:
 
     ports:
       - "7093:7093"
+    volumes:
+      - redisdata:/data

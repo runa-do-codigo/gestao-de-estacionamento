@@ -15,21 +15,22 @@ public class EditarHospedeCommandHandler(
     ITenantProvider tenantProvider,
     IUnitOfWork unitOfWork,
     IMapper mapper,
+    IValidator<EditarHospedeCommand> validator,
     ILogger<EditarHospedeCommandHandler> logger
     ) : IRequestHandler<EditarHospedeCommand, Result<EditarHospedeResult>>
 {
     public async Task<Result<EditarHospedeResult>> Handle(EditarHospedeCommand command, CancellationToken cancellationToken)
     {
-        //var resultadoValidacao = await validator.ValidateAsync(command, cancellationToken);
+        var resultadoValidacao = await validator.ValidateAsync(command, cancellationToken);
 
-        //if (!resultadoValidacao.IsValid)
-        //{
-        //    var erros = resultadoValidacao.Errors.Select(e => e.ErrorMessage);
+        if (!resultadoValidacao.IsValid)
+        {
+            var erros = resultadoValidacao.Errors.Select(e => e.ErrorMessage);
 
-        //    var erroFormatado = ResultadosErro.RequisicaoInvalidaErro(erros);
+            var erroFormatado = ResultadosErro.RequisicaoInvalidaErro(erros);
 
-        //    return Result.Fail(erroFormatado);
-        //}
+            return Result.Fail(erroFormatado);
+        }
 
         try
         {

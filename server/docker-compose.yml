@@ -22,8 +22,6 @@ services:
       retries: 10
     networks:
       - gestaodeestacionamento-net
-    volumes:
-      - dbdata:/var/lib/postgresql/data
 
   cache:
     image: redis:8.2.1
@@ -39,7 +37,6 @@ services:
         retries: 10
     networks:
       - gestaodeestacionamento-net
-      - redisdata:/data
 
 networks:
   gestaodeestacionamento-net:
