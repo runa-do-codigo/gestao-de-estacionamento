@@ -1,7 +1,9 @@
 ﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
+using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using GestaoDeEstacionamento.Core.Dominio.ModuloHospede;
 using GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
 using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloHospede;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloFaturamento;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +16,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IRepositorioHospede, RepositorioHospedeEmOrm>();
         //services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
-        //services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmOrm>();
+        services.AddScoped<IRepositorioFaturamento, RepositorioFaturamentoEmOrm>();
         //services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmOrm>();
         //services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmOrm>();
         //services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmOrm>();
