@@ -47,8 +47,8 @@ public class EditarFaturamentoCommandHandler(
         {
             var faturamentoEditado = mapper.Map<Faturamento>(command);
 
-            if (command.TicketId.HasValue)
-                faturamentoEditado.Ticket = await repositorioTicket.SelecionarRegistroPorIdAsync(command.TicketId.Value);
+            //if (command.TicketId.HasValue)
+            //    faturamentoEditado.Ticket = await repositorioTicket.SelecionarRegistroPorIdAsync(command.TicketId.Value);
 
             await repositorioFaturamento.EditarAsync(command.Id, faturamentoEditado);
 

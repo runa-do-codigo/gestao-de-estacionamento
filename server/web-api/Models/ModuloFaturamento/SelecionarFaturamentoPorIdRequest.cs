@@ -4,7 +4,7 @@ public record SelecionarFaturamentoPorIdRequest(Guid Id);
 
 public record SelecionarFaturamentoPorIdResponse(
     Guid Id,
-    DateTime HoraPagamento,
-    int ValorTotal,
-    Guid? TicketId = null
+    DateTime? DataPagamento,
+    int? ValorTotal,
+    Guid TicketId
 );

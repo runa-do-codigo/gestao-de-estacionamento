@@ -7,13 +7,11 @@ public record EditarFaturamentoCommand(
     Guid Id,
     DateTime? DataPagamento,
     int? ValorTotal,
-    Guid? TicketId = null
+    Guid TicketId
 ) : IRequest<Result<EditarFaturamentoResult>>;
 
 public record EditarFaturamentoResult(
-    DateTime DataInicio,
-    DateTime? DataFim,
     DateTime? DataPagamento,
     int? ValorTotal,
-    Guid? TicketId
+    Guid TicketId
 );

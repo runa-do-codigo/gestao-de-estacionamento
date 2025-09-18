@@ -9,5 +9,5 @@ public record SelecionarFaturamentoPorIdResult(
     Guid Id,
     DateTime? DataPagamento,
     int? ValorTotal,
-    Guid? TicketId
+    Guid TicketId
 );

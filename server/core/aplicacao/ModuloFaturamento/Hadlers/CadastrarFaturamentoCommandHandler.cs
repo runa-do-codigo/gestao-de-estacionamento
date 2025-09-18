@@ -47,8 +47,8 @@ public class CadastrarFaturamentoCommandHandler(
         {
             var faturamento = mapper.Map<Faturamento>(command);
 
-            if (command.TicketId.HasValue)
-                faturamento.Ticket = await repositorioTicket.SelecionarRegistroPorIdAsync(command.TicketId.Value);
+            //if (command.TicketId.HasValue)
+            //    faturamento.Ticket = await repositorioTicket.SelecionarRegistroPorIdAsync(command.TicketId.Value);
 
             faturamento.UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault();
 
