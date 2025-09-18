@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class Hospede : Migration
+    public partial class Config_Geral : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,12 +53,27 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Faturamentos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataPagamento = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ValorTotal = table.Column<int>(type: "integer", nullable: true),
+                    UsuarioId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faturamentos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Hospedes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nome = table.Column<string>(type: "text", nullable: false),
                     CPF = table.Column<string>(type: "text", nullable: false),
+                    VeiculoId = table.Column<List<Guid>>(type: "uuid[]", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -172,6 +187,56 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Veiculos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Placa = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
+                    Modelo = table.Column<string>(type: "text", nullable: false),
+                    Cor = table.Column<string>(type: "text", nullable: false),
+                    HospedeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Veiculos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Veiculos_Hospedes_HospedeId",
+                        column: x => x.HospedeId,
+                        principalTable: "Hospedes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataEntrada = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DataSaida = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    VeiculoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FaturamentoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Faturamentos_FaturamentoId",
+                        column: x => x.FaturamentoId,
+                        principalTable: "Faturamentos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Veiculos_VeiculoId",
+                        column: x => x.VeiculoId,
+                        principalTable: "Veiculos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -208,6 +273,34 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Faturamentos_Id",
+                table: "Faturamentos",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_FaturamentoId",
+                table: "Tickets",
+                column: "FaturamentoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_Id",
+                table: "Tickets",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_VeiculoId",
+                table: "Tickets",
+                column: "VeiculoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Veiculos_HospedeId",
+                table: "Veiculos",
+                column: "HospedeId");
         }
 
         /// <inheritdoc />
@@ -229,13 +322,22 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Hospedes");
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Faturamentos");
+
+            migrationBuilder.DropTable(
+                name: "Veiculos");
+
+            migrationBuilder.DropTable(
+                name: "Hospedes");
         }
     }
 }
