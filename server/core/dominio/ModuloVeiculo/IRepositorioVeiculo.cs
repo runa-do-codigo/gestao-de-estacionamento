@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 
-namespace GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo
-{
-    internal interface IRepositorioVeiculo
-    {
-    }
-}
+namespace GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
+public interface IRepositorioVeiculo : IRepositorio<Veiculo>;

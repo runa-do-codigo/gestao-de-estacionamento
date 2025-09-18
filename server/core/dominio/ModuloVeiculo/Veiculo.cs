@@ -1,12 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 
-namespace GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo
+namespace GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
+public class Veiculo : EntidadeBase<Veiculo>
 {
-    internal class Veiculo
+    public string Placa { get; set; }
+    public string Modelo { get; set; }
+    public string Cor { get; set; }
+
+    public Veiculo() { }
+
+    public Veiculo(string placa, string modelo, string cor) : this()
     {
+        Placa = placa;
+        Modelo = modelo;
+        Cor = cor;
+    }
+
+    public override void AtualizarRegistro(Veiculo registroEditado)
+    {
+        Placa = registroEditado.Placa;
+        Modelo = registroEditado.Modelo;
+        Cor = registroEditado.Cor;
     }
 }
