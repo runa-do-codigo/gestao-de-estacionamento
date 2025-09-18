@@ -1,5 +1,4 @@
-﻿using eAgenda.Core.Aplicacao.Compartilhado;
-using FluentResults;
+﻿using FluentResults;
 using GestaoDeEstacionamento.Core.Aplicacao.Compartilhado;
 using GestaoDeEstacionamento.Core.Aplicacao.ModuloHospede.Commands;
 using GestaoDeEstacionamento.Core.Dominio.Compartilhado;

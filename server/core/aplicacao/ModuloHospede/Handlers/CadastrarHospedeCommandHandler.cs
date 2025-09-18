@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using eAgenda.Core.Aplicacao.Compartilhado;
 using FluentResults;
 using FluentValidation;
 using GestaoDeEstacionamento.Core.Aplicacao.Compartilhado;
