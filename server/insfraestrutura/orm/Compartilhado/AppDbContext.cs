@@ -5,17 +5,17 @@ using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
+using GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
 
 namespace GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
 
 public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvider = null) :
     IdentityDbContext<Usuario, Cargo, Guid>(options), IUnitOfWork
 {
-    //public DbSet<Contato> Contatos { get; set; }
     public DbSet<Faturamento> Faturamentos { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Hospede> Hospedes { get; set; }
-    //public DbSet<Compromisso> Compromissos { get; set; }
+    public DbSet<Veiculo> Veiculos { get; set; }
     //public DbSet<Categoria> Categorias { get; set; }
     //public DbSet<Despesa> Despesas { get; set; }
     //public DbSet<Tarefa> Tarefas { get; set; }
@@ -34,8 +34,8 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
             modelBuilder.Entity<Ticket>()
                 .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
-            //modelBuilder.Entity<Despesa>()
-            //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
+            modelBuilder.Entity<Veiculo>()
+                .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
             //modelBuilder.Entity<Tarefa>()
             //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));

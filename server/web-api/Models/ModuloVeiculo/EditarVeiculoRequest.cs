@@ -3,11 +3,13 @@
 public record EditarVeiculoRequest(
     string Placa,
     string Modelo,
-    string Cor
+    string Cor,
+    Guid HospedeId
     );
 
 public record EditarVeiculoResponse(
     string Placa,
     string Modelo,
-    string Cor
+    string Cor,
+    Guid HospedeId
     );

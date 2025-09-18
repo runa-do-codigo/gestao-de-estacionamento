@@ -6,5 +6,6 @@ public record SelecionarVeiculoPorIdResponse(
     Guid Id,
     string Placa,
     string Modelo,
-    string Cor
+    string Cor,
+    Guid HospedeId
     );

@@ -1,14 +1,16 @@
 ﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using GestaoDeEstacionamento.Core.Dominio.ModuloHospede;
+using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
+using GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
 using GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
-using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloHospede;
 using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloFaturamento;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloHospede;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloTicket;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloVeiculo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
-using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloTicket;
 
 namespace GestaoDeEstacionamento.Infraestrutura.Orm;
 
@@ -19,7 +21,7 @@ public static class DependencyInjection
         services.AddScoped<IRepositorioHospede, RepositorioHospedeEmOrm>();
         services.AddScoped<IRepositorioTicket, RepositorioTicketEmOrm>();
         services.AddScoped<IRepositorioFaturamento, RepositorioFaturamentoEmOrm>();
-        //services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmOrm>();
+        services.AddScoped<IRepositorioVeiculo, RepositorioVeiculoEmOrm>();
         //services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmOrm>();
         //services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmOrm>();
 

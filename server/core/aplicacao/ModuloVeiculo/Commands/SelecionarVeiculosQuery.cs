@@ -11,5 +11,6 @@ public record SelecionarVeiculosDto(
     Guid Id,
     string Placa,
     string Modelo,
-    string Cor
+    string Cor,
+    Guid HospedeId
     );

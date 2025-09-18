@@ -17,7 +17,8 @@ public class VeiculoModelsMappingProfile : Profile
                 src.Item1,
                 src.Item2.Placa,
                 src.Item2.Modelo,
-                src.Item2.Cor
+                src.Item2.Cor,
+                src.Item2.HospedeId
                 ));
 
         CreateMap<EditarVeiculoResult, EditarVeiculoResponse>();
@@ -42,7 +43,8 @@ public class VeiculoModelsMappingProfile : Profile
                 src.Id,
                 src.Placa,
                 src.Modelo,
-                src.Cor
+                src.Cor,
+                src.HospedeId
             ));
     }
 }
