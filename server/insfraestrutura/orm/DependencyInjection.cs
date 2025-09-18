@@ -1,5 +1,7 @@
 ﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
+using GestaoDeEstacionamento.Core.Dominio.ModuloHospede;
 using GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloHospede;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +12,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddCamadaInfraestruturaOrm(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IRepositorioHospede, RepositorioHospedeEmOrm>();
         //services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
         //services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmOrm>();
         //services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmOrm>();
