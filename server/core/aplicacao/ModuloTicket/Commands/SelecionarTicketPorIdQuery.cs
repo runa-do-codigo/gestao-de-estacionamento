@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentResults;
+using MediatR;
 
-namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands
-{
-    internal class SelecionarTicketPorIdQuery
-    {
-    }
-}
+namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands;
+
+public record SelecionarTicketPorIdQuery(Guid Id) : IRequest<Result<SelecionarTicketPorIdResult>>;
+
+public record SelecionarTicketPorIdResult(
+    Guid Id,
+    DateTime DataEntrada,
+    DateTime? DataSaida,
+    Guid VeiculoId/*
+    Guid VagaId*/
+);

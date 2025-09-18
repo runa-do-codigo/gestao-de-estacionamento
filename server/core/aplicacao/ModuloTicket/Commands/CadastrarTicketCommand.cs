@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentResults;
+using MediatR;
 
-namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands
-{
-    internal class CadastrarTicketCommand
-    {
-    }
-}
+namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands;
+
+public record CadastrarTicketCommand(
+    DateTime DataEntrada,
+    DateTime? DataSaida,
+    Guid VeiculoId/*,
+    Guid VagaId*/
+) : IRequest<Result<CadastrarTicketResult>>;
+
+public record CadastrarTicketResult(Guid Id);

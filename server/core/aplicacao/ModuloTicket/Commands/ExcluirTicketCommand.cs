@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentResults;
+using MediatR;
 
-namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands
-{
-    internal class ExcluirTicketCommand
-    {
-    }
-}
+namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands;
+
+public record ExcluirTicketCommand(Guid Id) : IRequest<Result<ExcluirTicketResult>>;
+
+public record ExcluirTicketResult();

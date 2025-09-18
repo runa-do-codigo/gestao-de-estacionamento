@@ -1,8 +1,8 @@
-﻿using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
+﻿using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace GestaoDeEstacionamento.Infraestrutura.Orm.ModuloFaturamento;
+namespace GestaoDeEstacionamento.Infraestrutura.Orm.ModuloTicket;
 
 public class MapeadoTicketEmOrm : IEntityTypeConfiguration<Ticket>
 {
@@ -17,6 +17,12 @@ public class MapeadoTicketEmOrm : IEntityTypeConfiguration<Ticket>
 
         builder.Property(x => x.DataSaida)
             .IsRequired(false);
+
+        builder.Property(x => x.Veiculo)
+            .IsRequired();
+
+        //builder.Property(x => x.Vaga)
+            //.IsRequired();
 
         builder.HasIndex(x => x.Id)
             .IsUnique();

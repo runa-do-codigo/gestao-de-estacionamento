@@ -25,7 +25,7 @@ public class SelecionarFaturamentosQueryHandler(
         try
         {
             var cacheQuery = query.Quantidade.HasValue ? $"q={query.Quantidade.Value}" : "q=all";
-            var cacheKey = $"contatos:u={tenantProvider.UsuarioId.GetValueOrDefault()}:{cacheQuery}";
+            var cacheKey = $"faturamentos:u={tenantProvider.UsuarioId.GetValueOrDefault()}:{cacheQuery}";
 
             // 1) Tenta acessar o cache
             var jsonString = await cache.GetStringAsync(cacheKey, cancellationToken);

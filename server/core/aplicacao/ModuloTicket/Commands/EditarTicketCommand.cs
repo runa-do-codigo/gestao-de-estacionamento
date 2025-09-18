@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentResults;
+using MediatR;
 
-namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands
-{
-    internal class EditarTicketCommand
-    {
-    }
-}
+namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands;
+
+public record EditarTicketCommand(
+    Guid Id,
+    DateTime DataEntrada,
+    DateTime? DataSaida,
+    Guid VeiculoId/*
+    Guid VagaId*/
+) : IRequest<Result<EditarTicketResult>>;
+
+public record EditarTicketResult(
+    DateTime DataEntrada,
+    DateTime? DataSaida,
+    Guid VeiculoId/*
+    Guid VagaId*/
+);

@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
+using GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
 
-namespace GestaoDeEstacionamento.Core.Dominio.ModuloTicket
+namespace GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
+
+public class Ticket : EntidadeBase<Ticket>
 {
-    internal class Ticket
+    public DateTime DataEntrada { get; set; }
+    public DateTime? DataSaida { get; set; }
+    public Veiculo Veiculo { get; set; }
+    //public Vaga Vaga { get; set; }
+
+    public Ticket(Veiculo veiculo/*, Vaga vaga*/)
     {
+        Id = Guid.NewGuid();
+        DataEntrada = DateTime.Now;
+        DataSaida = null;
+        Veiculo = veiculo;
+        //Vaga = vaga;
+    }
+
+    public override void AtualizarRegistro(Ticket registroEditado)
+    {
+        DataSaida = registroEditado.DataSaida;
+        DataEntrada = registroEditado.DataEntrada;
+        Veiculo = registroEditado.Veiculo;
+        //Vaga = registroEditado.Vaga;
     }
 }

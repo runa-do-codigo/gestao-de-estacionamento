@@ -1,4 +1,5 @@
 ﻿using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
+using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
 
 namespace GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 
@@ -13,7 +14,7 @@ public class Faturamento : EntidadeBase<Faturamento>
         Id = Guid.NewGuid();
         DataPagamento = null;
         ValorTotal = null;
-        Ticket = Ticket;
+        Ticket = ticket;
     }
 
     public override void AtualizarRegistro(Faturamento registroEditado)
