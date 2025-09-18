@@ -1,26 +1,25 @@
 ﻿using AutoMapper;
-using GestaoDeEstacionamento.Core.Aplicacao.Compartilhado;
 using FluentResults;
 using FluentValidation;
+using GestaoDeEstacionamento.Core.Aplicacao.Compartilhado;
 using GestaoDeEstacionamento.Core.Aplicacao.ModuloVeiculo.Commands;
 using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 using GestaoDeEstacionamento.Core.Dominio.ModuloAutenticacao;
 using GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloVeiculo.Handlers;
-public class CadastrarVeiculoCommandHandler(
+public class EditarVeiculoCommandHandler(
     IRepositorioVeiculo repositorioVeiculo,
     ITenantProvider tenantProvider,
     IUnitOfWork unitOfWork,
     IMapper mapper,
-    IValidator<CadastrarVeiculoCommand> validator,
-    ILogger<CadastrarVeiculoCommandHandler> logger
-    ) : IRequestHandler<CadastrarVeiculoCommand, Result<CadastrarVeiculoResult>>
+    IValidator<EditarVeiculoCommand> validator,
+    ILogger<EditarVeiculoCommandHandler> logger
+    ) : IRequestHandler<EditarVeiculoCommand, Result<EditarVeiculoResult>>
 {
-    public async Task<Result<CadastrarVeiculoResult>> Handle(CadastrarVeiculoCommand command, CancellationToken cancellationToken)
+    public async Task<Result<EditarVeiculoResult>> Handle(EditarVeiculoCommand command, CancellationToken cancellationToken)
     {
         var resultadoValidacao = await validator.ValidateAsync(command, cancellationToken);
 
@@ -35,15 +34,15 @@ public class CadastrarVeiculoCommandHandler(
 
         try
         {
-            var veiculo = mapper.Map<Veiculo>(command);
+            var veiculoEditado = mapper.Map<Veiculo>(command);
 
-            veiculo.UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault();
+            veiculoEditado.UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault();
 
-            await repositorioVeiculo.CadastrarAsync(veiculo);
+            await repositorioVeiculo.EditarAsync(command.Id, veiculoEditado);
 
             await unitOfWork.CommitAsync();
 
-            var result = mapper.Map<CadastrarVeiculoResult>(veiculo);
+            var result = mapper.Map<EditarVeiculoResult>(veiculoEditado);
 
             return Result.Ok(result);
         }
@@ -52,10 +51,10 @@ public class CadastrarVeiculoCommandHandler(
             await unitOfWork.RollbackAsync();
 
             logger.LogError(
-                  ex,
-                "Ocorreu um erro durante o registro de {@Registro}.",
+                ex,
+                "Ocorreu um erro durante a edição de {@Registro}.",
                 command
-                );
+            );
 
             return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
