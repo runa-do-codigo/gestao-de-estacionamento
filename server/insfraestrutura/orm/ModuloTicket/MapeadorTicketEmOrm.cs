@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GestaoDeEstacionamento.Infraestrutura.Orm.ModuloTicket;
 
-public class MapeadoTicketEmOrm : IEntityTypeConfiguration<Ticket>
+public class MapeadorTicketEmOrm : IEntityTypeConfiguration<Ticket>
 {
     public void Configure(EntityTypeBuilder<Ticket> builder)
     {

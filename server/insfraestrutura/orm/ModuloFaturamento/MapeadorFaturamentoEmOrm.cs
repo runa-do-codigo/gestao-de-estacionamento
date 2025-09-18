@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GestaoDeEstacionamento.Infraestrutura.Orm.ModuloFaturamento;
 
-public class MapeadoFaturamentoEmOrm : IEntityTypeConfiguration<Faturamento>
+public class MapeadorFaturamentoEmOrm : IEntityTypeConfiguration<Faturamento>
 {
     public void Configure(EntityTypeBuilder<Faturamento> builder)
     {
