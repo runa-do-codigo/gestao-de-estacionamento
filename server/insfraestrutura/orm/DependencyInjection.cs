@@ -7,6 +7,8 @@ using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloFaturamento;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloTicket;
 
 namespace GestaoDeEstacionamento.Infraestrutura.Orm;
 
@@ -15,7 +17,7 @@ public static class DependencyInjection
     public static IServiceCollection AddCamadaInfraestruturaOrm(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IRepositorioHospede, RepositorioHospedeEmOrm>();
-        //services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
+        services.AddScoped<IRepositorioTicket, RepositorioTicketEmOrm>();
         services.AddScoped<IRepositorioFaturamento, RepositorioFaturamentoEmOrm>();
         //services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmOrm>();
         //services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmOrm>();

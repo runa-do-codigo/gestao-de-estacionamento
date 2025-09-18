@@ -4,6 +4,7 @@ using GestaoDeEstacionamento.Core.Dominio.ModuloHospede;
 using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
 
 namespace GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
 
@@ -12,6 +13,7 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
 {
     //public DbSet<Contato> Contatos { get; set; }
     public DbSet<Faturamento> Faturamentos { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Hospede> Hospedes { get; set; }
     //public DbSet<Compromisso> Compromissos { get; set; }
     //public DbSet<Categoria> Categorias { get; set; }
@@ -29,8 +31,8 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
             modelBuilder.Entity<Faturamento>()
                 .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
-            //modelBuilder.Entity<Categoria>()
-            //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
+            modelBuilder.Entity<Ticket>()
+                .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
             //modelBuilder.Entity<Despesa>()
             //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));

@@ -13,7 +13,7 @@ public class MapeadoTicketEmOrm : IEntityTypeConfiguration<Ticket>
            .IsRequired();
 
         builder.Property(x => x.DataEntrada)
-            .IsRequired(false);
+            .IsRequired();
 
         builder.Property(x => x.DataSaida)
             .IsRequired(false);
