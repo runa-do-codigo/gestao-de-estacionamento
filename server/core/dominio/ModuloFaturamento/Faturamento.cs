@@ -9,7 +9,8 @@ public class Faturamento : EntidadeBase<Faturamento>
     public int? ValorTotal {get; set; }
     public Ticket Ticket {get; set; }
 
-    public Faturamento(DateTime? dataPagamento, int? valorTotal, Ticket ticket)
+    public Faturamento()  { }
+    public Faturamento(DateTime? dataPagamento, int? valorTotal, Ticket ticket) : this()
     {
         Id = Guid.NewGuid();
         DataPagamento = dataPagamento;

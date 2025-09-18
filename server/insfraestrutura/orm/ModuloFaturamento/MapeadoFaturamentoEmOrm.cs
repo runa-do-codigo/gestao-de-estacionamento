@@ -17,8 +17,8 @@ public class MapeadoFaturamentoEmOrm : IEntityTypeConfiguration<Faturamento>
         builder.Property(x => x.ValorTotal)
             .IsRequired(false);
 
-        builder.Property(x => x.Ticket)
-            .IsRequired();
+        builder.HasOne(x => x.Ticket)
+            .WithOne();
 
         builder.HasIndex(x => x.Id)
             .IsUnique();

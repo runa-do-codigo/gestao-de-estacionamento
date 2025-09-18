@@ -12,14 +12,10 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
 public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvider = null) :
     IdentityDbContext<Usuario, Cargo, Guid>(options), IUnitOfWork
 {
-    public DbSet<Faturamento> Faturamentos { get; set; }
-    public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Hospede> Hospedes { get; set; }
     public DbSet<Veiculo> Veiculos { get; set; }
-    //public DbSet<Categoria> Categorias { get; set; }
-    //public DbSet<Despesa> Despesas { get; set; }
-    //public DbSet<Tarefa> Tarefas { get; set; }
-    //public DbSet<ItemTarefa> ItensTarefa { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<Faturamento> Faturamentos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,20 +24,14 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
             modelBuilder.Entity<Hospede>()
                 .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
-            modelBuilder.Entity<Faturamento>()
+            modelBuilder.Entity<Veiculo>()
                 .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
             modelBuilder.Entity<Ticket>()
                 .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
-            modelBuilder.Entity<Veiculo>()
+            modelBuilder.Entity<Faturamento>()
                 .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
-
-            //modelBuilder.Entity<Tarefa>()
-            //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
-
-            //modelBuilder.Entity<ItemTarefa>()
-            //    .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
         }
 
         var assembly = typeof(AppDbContext).Assembly;

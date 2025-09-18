@@ -17,8 +17,31 @@ public class RepositorioFaturamentoEmOrm(AppDbContext contexto)
         return await registros.Include(x => x.Ticket).FirstOrDefaultAsync(x => x.Id == idRegistro);
     }
 
-    public Task<Faturamento> ObterTotalFatura(Guid idFatura)
+    public async Task<Faturamento> ObterTotalFatura(Guid idFatura)
     {
-        throw new NotImplementedException();
+        // Busca a fatura pelo Id
+        var faturamento = await contexto.Faturamentos
+            .Include(f => f.Ticket) // inclui o ticket relacionado
+            .FirstOrDefaultAsync(f => f.Id == idFatura);
+
+        if (faturamento == null)
+            throw new Exception("Fatura não encontrada.");
+
+        if (faturamento.Ticket?.DataSaida == null)
+            throw new Exception("Ticket ainda não finalizado (DataSaida não definida).");
+
+        // Calcula tempo total
+        TimeSpan permanencia = faturamento.Ticket.DataSaida.Value - faturamento.Ticket.DataEntrada;
+
+        // Exemplo: valor fixo por hora
+        const int precoPorHora = 10;
+
+        // Arredonda para cima (cobrar hora cheia)
+        int horas = (int)Math.Ceiling(permanencia.TotalHours);
+
+        faturamento.ValorTotal = horas * precoPorHora;
+
+        return faturamento;
     }
+
 }

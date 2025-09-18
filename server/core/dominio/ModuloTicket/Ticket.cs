@@ -8,9 +8,11 @@ public class Ticket : EntidadeBase<Ticket>
     public DateTime DataEntrada { get; set; }
     public DateTime? DataSaida { get; set; }
     public Veiculo Veiculo { get; set; }
+    public Guid FaturamentoId { get; set; }
     //public Vaga Vaga { get; set; }
 
-    public Ticket(Veiculo veiculo/*, Vaga vaga*/)
+    public Ticket() { }
+    public Ticket(Veiculo veiculo/*, Vaga vaga*/) : this()
     {
         Id = Guid.NewGuid();
         DataEntrada = DateTime.Now;

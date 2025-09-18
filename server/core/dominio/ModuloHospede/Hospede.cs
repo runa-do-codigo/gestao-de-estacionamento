@@ -5,6 +5,7 @@ public class Hospede : EntidadeBase<Hospede>
 {
     public string Nome { get; set; }
     public string CPF { get; set; }
+    public List<Guid> VeiculoId { get; set; }
 
     public Hospede() { }
 

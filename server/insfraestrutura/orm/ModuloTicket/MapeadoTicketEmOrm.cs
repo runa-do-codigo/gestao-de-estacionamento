@@ -18,11 +18,11 @@ public class MapeadoTicketEmOrm : IEntityTypeConfiguration<Ticket>
         builder.Property(x => x.DataSaida)
             .IsRequired(false);
 
-        builder.Property(x => x.Veiculo)
-            .IsRequired();
+        builder.HasOne(x => x.Veiculo)
+            .WithMany();
 
-        //builder.Property(x => x.Vaga)
-            //.IsRequired();
+        //builder.HasOne(x => x.Vaga)
+           //.WithOne();
 
         builder.HasIndex(x => x.Id)
             .IsUnique();

@@ -19,11 +19,9 @@ public static class DependencyInjection
     public static IServiceCollection AddCamadaInfraestruturaOrm(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IRepositorioHospede, RepositorioHospedeEmOrm>();
+        services.AddScoped<IRepositorioVeiculo, RepositorioVeiculoEmOrm>();
         services.AddScoped<IRepositorioTicket, RepositorioTicketEmOrm>();
         services.AddScoped<IRepositorioFaturamento, RepositorioFaturamentoEmOrm>();
-        services.AddScoped<IRepositorioVeiculo, RepositorioVeiculoEmOrm>();
-        //services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmOrm>();
-        //services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmOrm>();
 
         services.AddEntityFrameworkConfig(configuration);
 

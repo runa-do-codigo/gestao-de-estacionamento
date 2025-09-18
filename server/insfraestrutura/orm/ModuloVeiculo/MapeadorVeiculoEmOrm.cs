@@ -21,7 +21,7 @@ public class MapeadorVeiculoOrm : IEntityTypeConfiguration<Veiculo>
         builder.Property(x => x.Cor)
             .IsRequired();
 
-        builder.Property(x => x.Hospede)
-            .IsRequired();
+        builder.HasOne(x => x.Hospede)
+            .WithMany();
     }
 }
