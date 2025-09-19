@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GestaoDeEstacionamento.Core.Aplicacao.ModuloFaturamento.Commands;
+using GestaoDeEstacionamento.Core.Aplicacao.ModuloFaturamento.Queries;
 using GestaoDeEstacionamento.WebApi.Models.ModuloFaturamento;
 using System.Collections.Immutable;
 
@@ -42,5 +43,11 @@ public class FaturamentoModelsMappingProfile : Profile
                 src.Faturamentos.Count,
                 src?.Faturamentos.Select(c => ctx.Mapper.Map<SelecionarFaturamentosDto>(c)).ToImmutableList() ?? ImmutableList<SelecionarFaturamentosDto>.Empty
             ));
+
+        CreateMap<Guid, ObterTotalFaturaQuery>()
+            .ConvertUsing(src => new ObterTotalFaturaQuery(src));
+
+        CreateMap<ObterTotalFaturaResult, ObterTotalFaturaResponse>();
+
     }
 }

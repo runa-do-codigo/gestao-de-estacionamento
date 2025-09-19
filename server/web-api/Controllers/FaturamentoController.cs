@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentResults;
 using GestaoDeEstacionamento.Core.Aplicacao.ModuloFaturamento.Commands;
+using GestaoDeEstacionamento.Core.Aplicacao.ModuloFaturamento.Queries;
 using GestaoDeEstacionamento.WebApi.Models.ModuloFaturamento;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -109,5 +110,18 @@ public class FaturamentoController(IMediator mediator, IMapper mapper) : Control
         var response = mapper.Map<SelecionarFaturamentoPorIdResponse>(result.Value);
 
         return Ok(response);
+    }
+
+    [HttpGet("{id:guid} obter-valor-total-fatura")]
+    public async Task<ActionResult<int>> ObterTotalFatura(Guid id)
+    {
+        var query = new ObterTotalFaturaQuery(id);
+
+        var result = await mediator.Send(query);
+
+        if (result.IsFailed)
+            return BadRequest(result.Errors.Select(e => e.Message));
+
+        return Ok(result.Value);
     }
 }
