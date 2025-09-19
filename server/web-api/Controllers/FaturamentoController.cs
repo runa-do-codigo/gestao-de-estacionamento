@@ -13,7 +13,7 @@ namespace eAgenda.WebApi.Controllers;
 [Route("faturamentos")]
 public class FaturamentoController(IMediator mediator, IMapper mapper) : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("cadastrar-faturamento")]
     public async Task<ActionResult<CadastrarFaturamentoResponse>> Cadastrar(CadastrarFaturamentoRequest request)
     {
         var command = mapper.Map<CadastrarFaturamentoCommand>(request);
@@ -39,7 +39,7 @@ public class FaturamentoController(IMediator mediator, IMapper mapper) : Control
         return Created(string.Empty, response);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:guid} editar-faturamento")]
     public async Task<ActionResult<EditarFaturamentoResponse>> Editar(Guid id, EditarFaturamentoRequest request)
     {
         var command = mapper.Map<(Guid, EditarFaturamentoRequest), EditarFaturamentoCommand>((id, request));
@@ -65,7 +65,7 @@ public class FaturamentoController(IMediator mediator, IMapper mapper) : Control
         return Ok(response);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id:guid} excluir-faturamento")]
     public async Task<ActionResult<ExcluirFaturamentoResponse>> Excluir(Guid id)
     {
         var command = mapper.Map<ExcluirFaturamentoCommand>(id);
@@ -78,7 +78,7 @@ public class FaturamentoController(IMediator mediator, IMapper mapper) : Control
         return NoContent();
     }
 
-    [HttpGet]
+    [HttpGet("selecionar-faturamentos")]
     public async Task<ActionResult<SelecionarFaturamentosResponse>> SelecionarRegistros(
         [FromQuery] SelecionarFaturamentosRequest? request,
         CancellationToken cancellationToken
@@ -96,7 +96,7 @@ public class FaturamentoController(IMediator mediator, IMapper mapper) : Control
         return Ok(response);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid} selecionar-faturamento-por-id")]
     public async Task<ActionResult<SelecionarFaturamentoPorIdResponse>> SelecionarRegistroPorId(Guid id)
     {
         var query = mapper.Map<SelecionarFaturamentoPorIdQuery>(id);
