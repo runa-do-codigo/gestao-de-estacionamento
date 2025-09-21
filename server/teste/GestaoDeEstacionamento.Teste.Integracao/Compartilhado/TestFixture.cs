@@ -5,6 +5,10 @@ using GestaoDeEstacionamento.Core.Dominio.ModuloHospede;
 using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
 using GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
 using GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloFaturamento;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloHospede;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloTicket;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloVeiculo;
 using Testcontainers.PostgreSql;
 
 namespace TesteFacil.Testes.Integracao.Compartilhado;
@@ -14,10 +18,10 @@ public abstract class TestFixture
 {
     protected AppDbContext? dbContext;
 
-    //protected RepositorioHospedeEmOrm? repositorioHospede;
-    //protected RepositorioVeiculoEmOrm? repositorioVeiculo;
-    //protected RepositorioTicketEmOrm? repositorioTicket;
-    //protected RepositorioFaturamentoEmOrm? repositorioFaturamento;
+    protected RepositorioHospedeEmOrm? repositorioHospede;
+    protected RepositorioVeiculoEmOrm? repositorioVeiculo;
+    protected RepositorioTicketEmOrm? repositorioTicket;
+    protected RepositorioFaturamentoEmOrm? repositorioFaturamento;
 
     private static IDatabaseContainer? container;
 
@@ -52,22 +56,23 @@ public abstract class TestFixture
 
         ConfigurarTabelas(dbContext);
 
-        //repositorioHospede = new RepositorioHospedeEmOrm(dbContext);
-        //repositorioVeiculo = new RepositorioVeiculoEmOrm(dbContext);
-        //repositorioTicket = new RepositorioTicketEmOrm(dbContext);
-        //repositorioFaturamento = new RepositorioFaturamentoEmOrm(dbContext);
+        repositorioHospede = new RepositorioHospedeEmOrm(dbContext);
+        repositorioVeiculo = new RepositorioVeiculoEmOrm(dbContext);
+        repositorioTicket = new RepositorioTicketEmOrm(dbContext);
+        repositorioFaturamento = new RepositorioFaturamentoEmOrm(dbContext);
 
-    //    BuilderSetup.SetCreatePersistenceMethod<Hospede>(repositorioHospede.Cadastrar);
-    //    BuilderSetup.SetCreatePersistenceMethod<IList<Hospede>>(repositorioHospede.CadastrarEntidades);
+        // adaptando para executar o async de forma síncrona
+        BuilderSetup.SetCreatePersistenceMethod<Hospede>(h => repositorioHospede.CadastrarAsync(h).GetAwaiter().GetResult());
+        BuilderSetup.SetCreatePersistenceMethod<IList<Hospede>>(h => repositorioHospede.CadastrarEntidades(h).GetAwaiter().GetResult());
 
-    //    BuilderSetup.SetCreatePersistenceMethod<Veiculo>(repositorioVeiculo.Cadastrar);
-    //    BuilderSetup.SetCreatePersistenceMethod<IList<Veiculo>>(repositorioVeiculo.CadastrarEntidades);
+        BuilderSetup.SetCreatePersistenceMethod<Veiculo>(h => repositorioVeiculo.CadastrarAsync(h).GetAwaiter().GetResult());
+        BuilderSetup.SetCreatePersistenceMethod<IList<Veiculo>>(h => repositorioVeiculo.CadastrarEntidades(h).GetAwaiter().GetResult());
 
-    //    BuilderSetup.SetCreatePersistenceMethod<Ticket>(repositorioTicket.Cadastrar);
-    //    BuilderSetup.SetCreatePersistenceMethod<IList<Ticket>>(repositorioTicket.CadastrarEntidades);
+        BuilderSetup.SetCreatePersistenceMethod<Ticket>(h => repositorioTicket.CadastrarAsync(h).GetAwaiter().GetResult());
+        BuilderSetup.SetCreatePersistenceMethod<IList<Ticket>>(h => repositorioTicket.CadastrarEntidades(h).GetAwaiter().GetResult());
 
-    //    BuilderSetup.SetCreatePersistenceMethod<Faturamento>(repositorioFaturamento.Cadastrar);
-    //    BuilderSetup.SetCreatePersistenceMethod<IList<Faturamento>>(repositorioFaturamento.CadastrarEntidades);
+        BuilderSetup.SetCreatePersistenceMethod<Faturamento>(h => repositorioFaturamento.CadastrarAsync(h).GetAwaiter().GetResult());
+        BuilderSetup.SetCreatePersistenceMethod<IList<Faturamento>>(h => repositorioFaturamento.CadastrarEntidades(h).GetAwaiter().GetResult());
     }
 
     private static void ConfigurarTabelas(AppDbContext dbContext)
