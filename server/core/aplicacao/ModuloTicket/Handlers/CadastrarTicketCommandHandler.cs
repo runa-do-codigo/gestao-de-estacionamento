@@ -2,11 +2,9 @@
 using FluentResults;
 using FluentValidation;
 using GestaoDeEstacionamento.Core.Aplicacao.Compartilhado;
-using GestaoDeEstacionamento.Core.Aplicacao.ModuloFaturamento.Commands;
 using GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands;
 using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 using GestaoDeEstacionamento.Core.Dominio.ModuloAutenticacao;
-using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;

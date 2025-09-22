@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
 using GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
+using GestaoDeEstacionamento.Core.Dominio.ModuloVaga;
 
 namespace GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
 
 public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvider = null) :
     IdentityDbContext<Usuario, Cargo, Guid>(options), IUnitOfWork
 {
+    public DbSet<Vaga> Vagas { get; set; }
     public DbSet<Hospede> Hospedes { get; set; }
     public DbSet<Veiculo> Veiculos { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
@@ -21,6 +23,9 @@ public class AppDbContext(DbContextOptions options, ITenantProvider? tenantProvi
     {
         if (tenantProvider is not null)
         {
+            modelBuilder.Entity<Vaga>()
+                .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
+
             modelBuilder.Entity<Hospede>()
                 .HasQueryFilter(x => x.UsuarioId.Equals(tenantProvider.UsuarioId));
 
