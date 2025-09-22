@@ -15,16 +15,17 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
         // Arrange
         var hospede = Builder<Hospede>.CreateNew().Persist();
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede, null);
+        var veiculo = new Veiculo("ABC-1234", "Ford", "Branco", hospede, null);
 
         // Act
-        repositorioVeiculo?.CadastrarAsync(veiculo);
-        dbContext?.SaveChanges();
+        await repositorioVeiculo!.CadastrarAsync(veiculo);
+        await dbContext!.SaveChangesAsync();
+
+        dbContext.ChangeTracker.Clear();
 
         // Assert
-        var veiculoSelecionada = await repositorioVeiculo?.SelecionarRegistroPorIdAsync(veiculo.Id);
-
-        Assert.AreEqual(veiculo, veiculoSelecionada);
+        var veiculoSelecionado = await repositorioVeiculo.SelecionarRegistroPorIdAsync(veiculo.Id);
+        Assert.AreEqual(veiculo.Id, veiculoSelecionado!.Id);
     }
 
     [TestMethod]
@@ -32,22 +33,23 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
     {
         // Arrange
         var hospede = Builder<Hospede>.CreateNew().Persist();
+        var veiculo = new Veiculo("ABC-1234", "Ford", "Branco", hospede, null);
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede, null);
-        repositorioVeiculo?.CadastrarAsync(veiculo);
-        dbContext?.SaveChanges();
+        await repositorioVeiculo!.CadastrarAsync(veiculo);
+        await dbContext!.SaveChangesAsync();
 
-        var veiculoEditado = new Veiculo("ABC-12345", "Ford Editado", "Branco", hospede, null);
+        var veiculoEditado = new Veiculo("ABC-1234", "Ford Editado", "Branco", hospede, null);
 
         // Act
-        var conseguiuEditar = await repositorioVeiculo?.EditarAsync(veiculo.Id, veiculoEditado);
-        dbContext?.SaveChanges();
+        var conseguiuEditar = await repositorioVeiculo.EditarAsync(veiculo.Id, veiculoEditado);
+        await dbContext.SaveChangesAsync();
+
+        dbContext.ChangeTracker.Clear();
 
         // Assert
-        var registroSelecionado = await repositorioVeiculo?.SelecionarRegistroPorIdAsync(veiculo.Id);
-
+        var registroSelecionado = await repositorioVeiculo.SelecionarRegistroPorIdAsync(veiculo.Id);
         Assert.IsTrue(conseguiuEditar);
-        Assert.AreEqual(veiculo, registroSelecionado);
+        Assert.AreEqual(veiculoEditado.Modelo, registroSelecionado!.Modelo);
     }
 
     [TestMethod]
@@ -55,18 +57,19 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
     {
         // Arrange
         var hospede = Builder<Hospede>.CreateNew().Persist();
+        var veiculo = new Veiculo("ABC-1234", "Ford", "Branco", hospede, null);
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede, null);
-        repositorioVeiculo?.CadastrarAsync(veiculo);
-        dbContext?.SaveChanges();
+        await repositorioVeiculo!.CadastrarAsync(veiculo);
+        await dbContext!.SaveChangesAsync();
 
         // Act
-        var conseguiuExcluir = await repositorioVeiculo?.ExcluirAsync(veiculo.Id);
-        dbContext?.SaveChanges();
+        var conseguiuExcluir = await repositorioVeiculo.ExcluirAsync(veiculo.Id);
+        await dbContext.SaveChangesAsync();
+
+        dbContext.ChangeTracker.Clear();
 
         // Assert
-        var registroSelecionado = await repositorioVeiculo?.SelecionarRegistroPorIdAsync(veiculo.Id);
-
+        var registroSelecionado = await repositorioVeiculo.SelecionarRegistroPorIdAsync(veiculo.Id);
         Assert.IsTrue(conseguiuExcluir);
         Assert.IsNull(registroSelecionado);
     }
@@ -74,26 +77,33 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
     [TestMethod]
     public async Task Deve_Selecionar_Veiculos_CorretamenteAsync()
     {
-        // Arrange - Arranjo
-        var hospede = Builder<Hospede>.CreateListOfSize(3).Persist().ToList();
+        // Arrange
+        var hospedes = Builder<Hospede>.CreateListOfSize(3).Persist().ToList();
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede[0], null);
-        var veiculo2 = new Veiculo("BCD-12345", "Ford", "Branco", hospede[1], null);
-        var veiculo3 = new Veiculo("CDE-12345", "Ford", "Branco", hospede[3], null);
+        var veiculo1 = new Veiculo("ABC-1234", "Ford", "Branco", hospedes[0], null);
+        var veiculo2 = new Veiculo("BCD-1234", "Ford", "Branco", hospedes[1], null);
+        var veiculo3 = new Veiculo("CDE-1234", "Ford", "Branco", hospedes[2], null);
 
-        List<Veiculo> veiculosEsperadas = [veiculo, veiculo2, veiculo3];
+        var veiculosEsperados = new List<Veiculo> { veiculo1, veiculo2, veiculo3 };
 
-        repositorioVeiculo?.CadastrarEntidades(veiculosEsperadas);
-        dbContext?.SaveChanges();
+        await repositorioVeiculo!.CadastrarEntidades(veiculosEsperados);
+        await dbContext!.SaveChangesAsync();
 
-        var veiculcosEsperadasOrdenadas = veiculosEsperadas
-            .OrderBy(d => d.Placa)
+        dbContext.ChangeTracker.Clear();
+
+        var veiculosEsperadosOrdenados = veiculosEsperados
+            .OrderBy(v => v.Placa)
             .ToList();
 
-        // Act - Ação
-        var veiculosRecebidas = await repositorioVeiculo?.SelecionarRegistrosAsync();
+        // Act
+        var veiculosRecebidos = (await repositorioVeiculo.SelecionarRegistrosAsync())
+            .OrderBy(v => v.Placa)
+            .ToList();
 
-        // Assert - Asseção
-        CollectionAssert.AreEqual(veiculcosEsperadasOrdenadas, veiculosRecebidas);
+        // Assert
+        CollectionAssert.AreEqual(
+            veiculosEsperadosOrdenados.Select(v => v.Id).ToList(),
+            veiculosRecebidos.Select(v => v.Id).ToList()
+        );
     }
 }
