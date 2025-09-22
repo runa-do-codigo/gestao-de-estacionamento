@@ -18,6 +18,7 @@ public class VeiculoModelsMappingProfile : Profile
                 src.Item2.Placa,
                 src.Item2.Modelo,
                 src.Item2.Cor,
+                src.Item2.Observacao,
                 src.Item2.HospedeId
                 ));
 
@@ -44,6 +45,7 @@ public class VeiculoModelsMappingProfile : Profile
                 src.Placa,
                 src.Modelo,
                 src.Cor,
+                src.Observacao,
                 src.HospedeId
             ));
     }

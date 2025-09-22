@@ -10,6 +10,7 @@ public class Vaga : EntidadeBase<Vaga>
     public Vaga() { }
     public Vaga(int numero) : this()
     {
+        Id = Guid.NewGuid();
         Numero = numero;
         EstaOcupada = false;
     }

@@ -17,16 +17,16 @@ public class TicketModelsMappingProfile : Profile
                 src.Item1,
                 src.Item2.DataEntrada,
                 src.Item2.DataSaida,
-                src.Item2.VeiculoId/*,
-                src.Item2.VagaId*/
+                src.Item2.VeiculoId,
+                src.Item2.VagaId
             ));
 
         CreateMap<EditarTicketResult, EditarTicketResponse>()
             .ConvertUsing(src => new EditarTicketResponse(
                 src.DataEntrada,
                 src.DataSaida,
-                src.VeiculoId/*,
-                src.Item2.VagaId*/
+                src.VeiculoId,
+                src.VagaId
             ));
 
         CreateMap<Guid, ExcluirTicketCommand>()

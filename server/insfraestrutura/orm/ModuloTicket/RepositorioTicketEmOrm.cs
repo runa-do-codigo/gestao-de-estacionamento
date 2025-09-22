@@ -10,11 +10,11 @@ public class RepositorioTicketEmOrm(AppDbContext contexto)
 {
     public override async Task<List<Ticket>> SelecionarRegistrosAsync()
     {
-        return await registros.Include(x => x.Veiculo)./*Include(x => x.Vaga).*/ToListAsync();
+        return await registros.Include(x => x.Veiculo).Include(x => x.Vaga).ToListAsync();
     }
 
     public override async Task<Ticket?> SelecionarRegistroPorIdAsync(Guid idRegistro)
     {
-        return await registros.Include(x => x.Veiculo)./*Include(x => x.Vaga).*/FirstOrDefaultAsync(x => x.Id == idRegistro);
+        return await registros.Include(x => x.Veiculo).Include(x => x.Vaga).FirstOrDefaultAsync(x => x.Id == idRegistro);
     }
 }

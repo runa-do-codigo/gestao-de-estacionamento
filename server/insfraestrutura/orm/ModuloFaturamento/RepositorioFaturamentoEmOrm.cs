@@ -17,17 +17,12 @@ public class RepositorioFaturamentoEmOrm(AppDbContext contexto)
         return await registros.Include(x => x.Ticket).FirstOrDefaultAsync(x => x.Id == idRegistro);
     }
 
-    public async Task<Faturamento> ObterTotalFatura(Guid idFatura)
+    public async Task<int?> ObterTotalFatura(Guid idFatura)
     {
         var faturamento = await contexto.Faturamentos
             .Include(f => f.Ticket)
             .FirstOrDefaultAsync(f => f.Id == idFatura);
 
-        if (faturamento == null)
-            throw new Exception("Fatura não encontrada.");
-
-        if (faturamento.Ticket?.DataSaida == null)
-            throw new Exception("Ticket ainda não finalizado (DataSaida não definida).");
 
         TimeSpan permanencia = faturamento.Ticket.DataSaida.Value - faturamento.Ticket.DataEntrada;
 
@@ -36,10 +31,10 @@ public class RepositorioFaturamentoEmOrm(AppDbContext contexto)
 
         faturamento.ValorTotal = horas * precoPorHora;
 
-        // 🔹 Se quiser salvar no banco
+        // Atualiza no banco
         contexto.Faturamentos.Update(faturamento);
         await contexto.SaveChangesAsync();
 
-        return faturamento;
+        return faturamento.ValorTotal; // int
     }
 }

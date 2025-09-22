@@ -15,5 +15,7 @@ public class EditarTicketCommandValidator : AbstractValidator<EditarTicketComman
         RuleFor(x => x.DataSaida)
             .GreaterThan(x => x.DataEntrada).When(x => x.DataSaida.HasValue)
             .WithMessage("A data de saída deve ser maior que a data de entrada.");
+        RuleFor(x => x.VagaId)
+            .NotEmpty().WithMessage("A Vaga é obrigatório.");
     }
 }

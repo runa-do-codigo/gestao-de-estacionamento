@@ -8,6 +8,7 @@ using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 using GestaoDeEstacionamento.Core.Dominio.ModuloAutenticacao;
 using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
+using GestaoDeEstacionamento.Core.Dominio.ModuloVaga;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,7 @@ namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Handlers;
 public class EditarTicketCommandHandler(
     IRepositorioTicket repositorioTicket,
     IRepositorioTicket repositorioVeiculo,
-    /*IRepositorioVaga repositorioVaga,*/
+    IRepositorioVaga repositorioVaga,
     ITenantProvider tenantProvider,
     IUnitOfWork unitOfWork,
     IMapper mapper,
@@ -45,8 +46,8 @@ public class EditarTicketCommandHandler(
         if (registros.Any(i => !i.Id.Equals(command.Id) && i.Veiculo.Equals(command.VeiculoId)))
             return Result.Fail(ResultadosErro.RegistroDuplicadoErro("Já existe um Ticket registrado com este Veiculo."));
 
-        //if (registros.Any(i => !i.Id.Equals(command.Id) && i.Vaga.Equals(command.VagaId)))
-            //return Result.Fail(ResultadosErro.RegistroDuplicadoErro("Já existe um Ticket registrado com esta Vaga."));
+        if (registros.Any(i => !i.Id.Equals(command.Id) && i.Vaga.Equals(command.VagaId)))
+            return Result.Fail(ResultadosErro.RegistroDuplicadoErro("Já existe um Ticket registrado com esta Vaga."));
 
         try
         {
