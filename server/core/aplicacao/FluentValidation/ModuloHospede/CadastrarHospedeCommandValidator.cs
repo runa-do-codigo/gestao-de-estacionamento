@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using GestaoDeEstacionamento.Core.Aplicacao.ModuloHospede.Commands;
 
-namespace GestaoDeEstacionamento.Core.Aplicacao.FluentValidation.ModuloHospede;
+namespace GestaoDeEstacionamento.Core.Aplicacao.FluentValidation.ModuloVaga;
 
 public class CadastrarHospedeCommandValidator : AbstractValidator<CadastrarHospedeCommand>
 {
