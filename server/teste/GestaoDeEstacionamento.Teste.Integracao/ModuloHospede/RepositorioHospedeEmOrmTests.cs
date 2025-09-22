@@ -14,13 +14,15 @@ public sealed class RepositorioHospedeEmOrmTests : TestFixture
         var hospede = new Hospede("Iago", "123.123.123-12");
 
         // Act
-        repositorioHospede?.CadastrarAsync(hospede);
-        dbContext?.SaveChanges();
+        await repositorioHospede!.CadastrarAsync(hospede);
+        await dbContext!.SaveChangesAsync();
+
+        // Limpar rastreamento para evitar conflitos
+        dbContext.ChangeTracker.Clear();
 
         // Assert
-        var registroSelecionado = await repositorioHospede?.SelecionarRegistroPorIdAsync(hospede.Id);
-
-        Assert.AreEqual(hospede, registroSelecionado);
+        var registroSelecionado = await repositorioHospede.SelecionarRegistroPorIdAsync(hospede.Id);
+        Assert.AreEqual(hospede.Id, registroSelecionado!.Id);
     }
 
     [TestMethod]
@@ -28,20 +30,22 @@ public sealed class RepositorioHospedeEmOrmTests : TestFixture
     {
         // Arrange
         var hospede = new Hospede("Iago", "123.123.123-12");
-        repositorioHospede?.CadastrarAsync(hospede);
-        dbContext?.SaveChanges();
+        await repositorioHospede!.CadastrarAsync(hospede);
+        await dbContext!.SaveChangesAsync();
 
-        var hospedeEditada = new Hospede("Iago Editado", "123.123.123-12");
+        var hospedeEditado = new Hospede("Iago Editado", "123.123.123-12");
 
         // Act
-        var conseguiuEditar = await repositorioHospede?.EditarAsync(hospede.Id, hospedeEditada);
-        dbContext?.SaveChanges();
+        var conseguiuEditar = await repositorioHospede.EditarAsync(hospede.Id, hospedeEditado);
+        await dbContext.SaveChangesAsync();
+
+        // Limpar rastreamento para evitar conflitos
+        dbContext.ChangeTracker.Clear();
 
         // Assert
-        var registroSelecionado = await repositorioHospede?.SelecionarRegistroPorIdAsync(hospede.Id);
-
+        var registroSelecionado = await repositorioHospede.SelecionarRegistroPorIdAsync(hospede.Id);
         Assert.IsTrue(conseguiuEditar);
-        Assert.AreEqual(hospede, registroSelecionado);
+        Assert.AreEqual(hospedeEditado.Nome, registroSelecionado!.Nome);
     }
 
     [TestMethod]
@@ -49,41 +53,47 @@ public sealed class RepositorioHospedeEmOrmTests : TestFixture
     {
         // Arrange
         var hospede = new Hospede("Iago", "123.123.123-12");
-        repositorioHospede?.CadastrarAsync(hospede);
-        dbContext?.SaveChanges();
+        await repositorioHospede!.CadastrarAsync(hospede);
+        await dbContext!.SaveChangesAsync();
 
         // Act
-        var conseguiuExcluir = await repositorioHospede?.ExcluirAsync(hospede.Id);
-        dbContext?.SaveChanges();
+        var conseguiuExcluir = await repositorioHospede.ExcluirAsync(hospede.Id);
+        await dbContext.SaveChangesAsync();
+
+        // Limpar rastreamento para evitar conflitos
+        dbContext.ChangeTracker.Clear();
 
         // Assert
-        var registroSelecionado = await repositorioHospede?.SelecionarRegistroPorIdAsync(hospede.Id);
-
+        var registroSelecionado = await repositorioHospede.SelecionarRegistroPorIdAsync(hospede.Id);
         Assert.IsTrue(conseguiuExcluir);
         Assert.IsNull(registroSelecionado);
     }
 
     [TestMethod]
-    public async Task Deve_Selecionar_Hospedes_CorretamenteAsync()
+    public async Task Deve_Selecionar_Todos_Hospedes_CorretamenteAsync()
     {
-        // Arrange - Arranjo
-        var hospede = new Hospede("Iago", "123.123.123-12");
-        var hospede2 = new Hospede("Gustavo", "321.123.123-12");
-        var hospede3 = new Hospede("Pedro", "123.123.123-45");
+        // Arrange
+        var hospede1 = new Hospede("Lucas", "111.111.111-11");
+        var hospede2 = new Hospede("Maria", "222.222.222-22");
+        var hospede3 = new Hospede("João", "333.333.333-33");
 
-        List<Hospede> hospedesEsperadas = [hospede, hospede2, hospede3];
+        // Adiciona e salva cada entidade
+        await repositorioHospede!.CadastrarAsync(hospede1);
+        await repositorioHospede!.CadastrarAsync(hospede2);
+        await repositorioHospede!.CadastrarAsync(hospede3);
+        await dbContext.SaveChangesAsync();
 
-        repositorioHospede?.CadastrarEntidades(hospedesEsperadas);
-        dbContext?.SaveChanges();
+        // Limpa rastreamento para evitar conflito
+        dbContext.ChangeTracker.Clear();
 
-        var hospedesEsperadasOrdenadas = hospedesEsperadas
-            .OrderBy(d => d.Nome)
-            .ToList();
+        // Act
+        var hospedesRecebidos = await repositorioHospede.SelecionarRegistrosAsync();
 
-        // Act - Ação
-        var hospedesRecebidas = await repositorioHospede?.SelecionarRegistrosAsync();
+        // Assert
+        var nomesEsperados = new List<string> { hospede1.Nome, hospede2.Nome, hospede3.Nome }
+            .OrderBy(n => n).ToList();
+        var nomesRecebidos = hospedesRecebidos!.Select(h => h.Nome).OrderBy(n => n).ToList();
 
-        // Assert - Asseção
-        CollectionAssert.AreEqual(hospedesEsperadasOrdenadas, hospedesRecebidas);
+        CollectionAssert.AreEqual(nomesEsperados, nomesRecebidos);
     }
 }
