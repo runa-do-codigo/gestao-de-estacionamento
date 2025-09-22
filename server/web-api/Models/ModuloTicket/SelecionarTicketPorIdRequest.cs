@@ -6,6 +6,6 @@ public record SelecionarTicketPorIdResponse(
     Guid Id,
     DateTime DataEntrada,
     DateTime? DataSaida,
-    Guid VeiculoId/*,
-    Guid VagaId*/
+    Guid VeiculoId,
+    Guid VagaId
 );

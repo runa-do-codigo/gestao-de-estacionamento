@@ -6,6 +6,7 @@ using GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Commands;
 using GestaoDeEstacionamento.Core.Dominio.Compartilhado;
 using GestaoDeEstacionamento.Core.Dominio.ModuloAutenticacao;
 using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
+using GestaoDeEstacionamento.Core.Dominio.ModuloVaga;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,7 @@ namespace GestaoDeEstacionamento.Core.Aplicacao.ModuloTicket.Handlers;
 public class CadastrarTicketCommandHandler(
     IRepositorioTicket repositorioTicket,
     IRepositorioTicket repositorioVeiculo,
-    /*IRepositorioVaga repositorioVaga,*/
+    IRepositorioVaga repositorioVaga,
     ITenantProvider tenantProvider,
     IUnitOfWork unitOfWork,
     IMapper mapper,
@@ -43,8 +44,8 @@ public class CadastrarTicketCommandHandler(
         if (registros.Any(i => i.Veiculo.Equals(command.VeiculoId)))
             return Result.Fail(ResultadosErro.RegistroDuplicadoErro("Já existe um ticket registrado com este Veiculo."));
 
-        //if (registros.Any(i => i.Vaga.Equals(command.VagaId)))
-            //return Result.Fail(ResultadosErro.RegistroDuplicadoErro("Já existe um ticket registrado com este Vaga."));
+        if (registros.Any(i => i.Vaga.Equals(command.VagaId)))
+            return Result.Fail(ResultadosErro.RegistroDuplicadoErro("Já existe um ticket registrado com este Vaga."));
         try
         {
             var ticket = mapper.Map<Ticket>(command);

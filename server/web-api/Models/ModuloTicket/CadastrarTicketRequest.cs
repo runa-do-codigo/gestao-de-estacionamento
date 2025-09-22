@@ -3,8 +3,8 @@
 public record CadastrarTicketRequest(
     DateTime DataEntrada,
     DateTime? DataSaida,
-    Guid VeiculoId/*,
-    Guid VagaId*/
+    Guid VeiculoId,
+    Guid VagaId
 );
 
 public record CadastrarTicketResponse(Guid Id);

@@ -15,8 +15,7 @@ public class CadastrarTicketCommandValidator : AbstractValidator<CadastrarTicket
            .WithMessage("A data de saída deve ser maior que a data de entrada.");
         RuleFor(x => x.VeiculoId)
             .NotEmpty().WithMessage("O Veiculo é obrigatório.");
-
-        //RuleFor(x => x.VagaId)
-            //.NotEmpty().WithMessage("A Vaga é obrigatório.");
+        RuleFor(x => x.VagaId)
+            .NotEmpty().WithMessage("A Vaga é obrigatório.");
     }
 }

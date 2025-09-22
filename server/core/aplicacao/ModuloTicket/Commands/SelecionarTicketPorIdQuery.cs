@@ -9,6 +9,6 @@ public record SelecionarTicketPorIdResult(
     Guid Id,
     DateTime DataEntrada,
     DateTime? DataSaida,
-    Guid VeiculoId/*
-    Guid VagaId*/
+    Guid VeiculoId,
+    Guid VagaId
 );
