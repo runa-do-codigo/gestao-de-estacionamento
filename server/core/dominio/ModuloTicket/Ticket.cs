@@ -22,6 +22,10 @@ public class Ticket : EntidadeBase<Ticket>
         Vaga = vaga;
     }
 
+    public void Saida()
+    {
+        DataSaida = DateTime.Now;
+    }
     public override void AtualizarRegistro(Ticket registroEditado)
     {
         DataSaida = registroEditado.DataSaida;
