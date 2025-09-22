@@ -12,5 +12,6 @@ public record SelecionarVeiculosDto(
     string Placa,
     string Modelo,
     string Cor,
+    string? Observacao,
     Guid HospedeId
     );

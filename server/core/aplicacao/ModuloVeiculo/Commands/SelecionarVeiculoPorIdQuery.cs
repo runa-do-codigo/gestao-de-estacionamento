@@ -9,5 +9,6 @@ public record SelecionarVeiculoPorIdResult(
     string Placa,
     string Modelo,
     string Cor,
+    string? Observacao,
     Guid HospedeId
     );

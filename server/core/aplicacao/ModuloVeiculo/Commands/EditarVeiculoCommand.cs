@@ -7,6 +7,7 @@ public record EditarVeiculoCommand(
     string Placa,
     string Modelo,
     string Cor,
+    string? Observacao,
     Guid HospedeId
     ) : IRequest<Result<EditarVeiculoResult>>;
 
@@ -14,5 +15,6 @@ public record EditarVeiculoResult(
     string Placa,
     string Modelo,
     string Cor,
+    string? Observacao,
     Guid HospedeId
     );

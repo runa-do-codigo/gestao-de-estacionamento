@@ -15,7 +15,7 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
         // Arrange
         var hospede = Builder<Hospede>.CreateNew().Persist();
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede);
+        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede, null);
 
         // Act
         repositorioVeiculo?.CadastrarAsync(veiculo);
@@ -33,11 +33,11 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
         // Arrange
         var hospede = Builder<Hospede>.CreateNew().Persist();
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede);
+        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede, null);
         repositorioVeiculo?.CadastrarAsync(veiculo);
         dbContext?.SaveChanges();
 
-        var veiculoEditado = new Veiculo("ABC-12345", "Ford Editado", "Branco", hospede);
+        var veiculoEditado = new Veiculo("ABC-12345", "Ford Editado", "Branco", hospede, null);
 
         // Act
         var conseguiuEditar = await repositorioVeiculo?.EditarAsync(veiculo.Id, veiculoEditado);
@@ -56,7 +56,7 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
         // Arrange
         var hospede = Builder<Hospede>.CreateNew().Persist();
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede);
+        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede, null);
         repositorioVeiculo?.CadastrarAsync(veiculo);
         dbContext?.SaveChanges();
 
@@ -77,9 +77,9 @@ public sealed class RepositorioVeiculoEmOrmTests : TestFixture
         // Arrange - Arranjo
         var hospede = Builder<Hospede>.CreateListOfSize(3).Persist().ToList();
 
-        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede[0]);
-        var veiculo2 = new Veiculo("BCD-12345", "Ford", "Branco", hospede[1]);
-        var veiculo3 = new Veiculo("CDE-12345", "Ford", "Branco", hospede[3]);
+        var veiculo = new Veiculo("ABC-12345", "Ford", "Branco", hospede[0], null);
+        var veiculo2 = new Veiculo("BCD-12345", "Ford", "Branco", hospede[1], null);
+        var veiculo3 = new Veiculo("CDE-12345", "Ford", "Branco", hospede[3], null);
 
         List<Veiculo> veiculosEsperadas = [veiculo, veiculo2, veiculo3];
 

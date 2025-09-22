@@ -4,6 +4,7 @@ public record CadastrarVeiculoRequest(
     string Placa,
     string Modelo,
     string Cor,
+    string? Observacao,
     Guid HospedeId
     );
 

@@ -6,6 +6,7 @@ public record CadastrarVeiculoCommand(
     string Placa,
     string Modelo,
     string Cor,
+    string? Observacao,
     Guid HospedeId
     ) : IRequest<Result<CadastrarVeiculoResult>>;
 
