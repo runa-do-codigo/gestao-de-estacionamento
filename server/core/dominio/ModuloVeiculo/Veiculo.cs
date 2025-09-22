@@ -14,6 +14,7 @@ public class Veiculo : EntidadeBase<Veiculo>
 
     public Veiculo(string placa, string modelo, string cor, Hospede hospede, string? observacao) : this()
     {
+        Id = Guid.NewGuid();
         Placa = placa;
         Modelo = modelo;
         Cor = cor;

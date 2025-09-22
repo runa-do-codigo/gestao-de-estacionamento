@@ -11,6 +11,7 @@ public class Hospede : EntidadeBase<Hospede>
 
     public Hospede(string nome, string cPF) : this()
     {
+        Id = Guid.NewGuid();
         Nome = nome;
         CPF = cPF;
     }
