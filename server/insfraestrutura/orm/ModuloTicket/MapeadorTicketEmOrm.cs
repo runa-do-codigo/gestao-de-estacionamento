@@ -21,8 +21,8 @@ public class MapeadorTicketEmOrm : IEntityTypeConfiguration<Ticket>
         builder.HasOne(x => x.Veiculo)
             .WithMany();
 
-        //builder.HasOne(x => x.Vaga)
-           //.WithOne();
+        builder.HasOne(x => x.Vaga)
+           .WithOne();
 
         builder.HasIndex(x => x.Id)
             .IsUnique();
