@@ -3,11 +3,13 @@ using FizzWare.NBuilder;
 using GestaoDeEstacionamento.Core.Dominio.ModuloFaturamento;
 using GestaoDeEstacionamento.Core.Dominio.ModuloHospede;
 using GestaoDeEstacionamento.Core.Dominio.ModuloTicket;
+using GestaoDeEstacionamento.Core.Dominio.ModuloVaga;
 using GestaoDeEstacionamento.Core.Dominio.ModuloVeiculo;
 using GestaoDeEstacionamento.Infraestrutura.Orm.Compartilhado;
 using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloFaturamento;
 using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloHospede;
 using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloTicket;
+using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloVaga;
 using GestaoDeEstacionamento.Infraestrutura.Orm.ModuloVeiculo;
 using Testcontainers.PostgreSql;
 
@@ -17,7 +19,7 @@ namespace TesteFacil.Testes.Integracao.Compartilhado;
 public abstract class TestFixture
 {
     protected AppDbContext? dbContext;
-
+    protected RepositorioVagaEmOrm? repositorioVaga;
     protected RepositorioHospedeEmOrm? repositorioHospede;
     protected RepositorioVeiculoEmOrm? repositorioVeiculo;
     protected RepositorioTicketEmOrm? repositorioTicket;
@@ -56,12 +58,16 @@ public abstract class TestFixture
 
         ConfigurarTabelas(dbContext);
 
+        repositorioVaga = new RepositorioVagaEmOrm(dbContext);
         repositorioHospede = new RepositorioHospedeEmOrm(dbContext);
         repositorioVeiculo = new RepositorioVeiculoEmOrm(dbContext);
         repositorioTicket = new RepositorioTicketEmOrm(dbContext);
         repositorioFaturamento = new RepositorioFaturamentoEmOrm(dbContext);
 
         // adaptando para executar o async de forma síncrona
+        BuilderSetup.SetCreatePersistenceMethod<Vaga>(h => repositorioVaga.CadastrarAsync(h).GetAwaiter().GetResult());
+        BuilderSetup.SetCreatePersistenceMethod<IList<Vaga>>(h => repositorioVaga.CadastrarEntidades(h).GetAwaiter().GetResult());
+
         BuilderSetup.SetCreatePersistenceMethod<Hospede>(h => repositorioHospede.CadastrarAsync(h).GetAwaiter().GetResult());
         BuilderSetup.SetCreatePersistenceMethod<IList<Hospede>>(h => repositorioHospede.CadastrarEntidades(h).GetAwaiter().GetResult());
 
@@ -83,6 +89,7 @@ public abstract class TestFixture
         dbContext.Tickets.RemoveRange(dbContext.Tickets);
         dbContext.Veiculos.RemoveRange(dbContext.Veiculos);
         dbContext.Hospedes.RemoveRange(dbContext.Hospedes);
+        dbContext.Vagas.RemoveRange(dbContext.Vagas);
 
         dbContext.SaveChanges();
     }
