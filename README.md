@@ -25,6 +25,8 @@ A solução permite que empresas de estacionamento controlem entradas e saídas 
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" height="45"/> 
   <img src="https://skillicons.dev/icons?i=docker" height="50"/> 
   <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/newrelic.svg" height="40"/> 
+  <img src="https://raw.githubusercontent.com/swagger-api/swagger-ui/master/dist/favicon-32x32.png" height="48" width="48" alt="Swagger UI"/><img src="https://skillicons.dev/icons?i=postman" height="50"/>
+
 </p>
 
 ---
