@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -73,7 +73,7 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nome = table.Column<string>(type: "text", nullable: false),
                     CPF = table.Column<string>(type: "text", nullable: false),
-                    VeiculoId = table.Column<List<Guid>>(type: "uuid[]", nullable: false),
+                    VeiculoId = table.Column<Guid>(type: "uuid", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -195,6 +195,7 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                     Placa = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
                     Modelo = table.Column<string>(type: "text", nullable: false),
                     Cor = table.Column<string>(type: "text", nullable: false),
+                    Observacao = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     HospedeId = table.Column<Guid>(type: "uuid", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -233,6 +234,27 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                         name: "FK_Tickets_Veiculos_VeiculoId",
                         column: x => x.VeiculoId,
                         principalTable: "Veiculos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vagas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Numero = table.Column<int>(type: "integer", nullable: false),
+                    EstaOcupada = table.Column<bool>(type: "boolean", nullable: false),
+                    TicketId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vagas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vagas_Tickets_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Tickets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -298,6 +320,12 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                 column: "VeiculoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Vagas_TicketId",
+                table: "Vagas",
+                column: "TicketId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Veiculos_HospedeId",
                 table: "Veiculos",
                 column: "HospedeId");
@@ -322,13 +350,16 @@ namespace GestaoDeEstacionamento.Infraestrutura.Orm.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "Vagas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Faturamentos");
