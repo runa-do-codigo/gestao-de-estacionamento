@@ -99,4 +99,20 @@ public class VeiculoController(IMediator mediator, IMapper mapper) : ControllerB
 
         return Ok(response);
     }
+    [HttpPatch("{id:guid} adicionar-observacao")]
+    public async Task<ActionResult<AdicionarObservacaoResponse>> AdicionarObservacao(
+    Guid id,
+    AdicionarObservacaoRequest request)
+    {
+        var command = mapper.Map<(Guid, string), AdicionarObservacaoCommand>((id, request.Observacao));
+
+        var result = await mediator.Send(command);
+
+        if (result.IsFailed)
+            return BadRequest(result.Errors.Select(e => e.Message));
+
+        var response = mapper.Map<AdicionarObservacaoResponse>(result.Value);
+
+        return Ok(response);
+    }
 }
